@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFTServer", "EFTServer.csproj", "{CEB2F20A-6A8E-463C-8849-9145E28F35E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CEB2F20A-6A8E-463C-8849-9145E28F35E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEB2F20A-6A8E-463C-8849-9145E28F35E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEB2F20A-6A8E-463C-8849-9145E28F35E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEB2F20A-6A8E-463C-8849-9145E28F35E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC0197DB-15D5-4B5F-88EB-6D229A201709}
+	EndGlobalSection
+EndGlobal
