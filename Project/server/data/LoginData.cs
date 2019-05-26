@@ -7,7 +7,7 @@ namespace EFTServer.server.data
         public string email;
         public string password;
         public bool toggle;
-        public double timestamp;
+        public long timestamp;
 
         public override string ToString()
         {

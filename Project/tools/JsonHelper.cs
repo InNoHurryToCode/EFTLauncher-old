@@ -18,5 +18,32 @@ namespace EFTServer
 
             return data;
         }
+
+        public static string SaveJson<T>(string file, T obj)
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            using (StreamWriter sw = new StreamWriter(file))
+            {
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(sw, obj);
+                }
+            }
+
+            return "";
+        }
+
+        public static string NormalizeJson<T>(T obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        public static string EncodeTo64(string toEncode)
+        {
+            byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(toEncode);
+            return System.Convert.ToBase64String(toEncodeAsBytes);
+        }
     }
 }

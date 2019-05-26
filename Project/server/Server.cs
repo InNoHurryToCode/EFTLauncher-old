@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EFTServer.server.data;
+using Microsoft.Win32;
 
 namespace EFTServer
 {
@@ -39,7 +40,8 @@ namespace EFTServer
         public void Login()
         {
             // get login data
-            LoginData loginData = JsonHelper.LoadJson<LoginData>(@"data/account/login.json");
+            string loginDataPath = @"data/account/login.json";
+            LoginData loginData = JsonHelper.LoadJson<LoginData>(loginDataPath);
             Logger.Log("INFO: Login data:");
             Logger.Log(loginData.ToString());
 
@@ -49,6 +51,20 @@ namespace EFTServer
             loginData.timestamp = (long)tempTimestamp ^ 698464131;
             Logger.Log("INFO: Login timestamp:");
             Logger.Log(loginData.timestamp.ToString());
+
+            // convert login data to encoded base64 json
+            string json = JsonHelper.EncodeTo64(JsonHelper.NormalizeJson<LoginData>(loginData));
+            char[] codes = json.ToCharArray();
+
+            // convert json to bytes array
+            string bytes = "";
+            for (int i = 0; i < json.Length; ++i)
+            {
+                bytes += (int)codes[i];
+            }
+
+            // write login data to registery
+            Registry.SetValue(@"HKCU\\SOFTWARE\\Battlestate Games\\EscapeFromTarkov", "bC5vLmcuaS5u_h1472614626", bytes, RegistryValueKind.Binary);
         }
     }
 }
