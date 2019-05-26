@@ -9,7 +9,11 @@ namespace EFTServer
     {
         public MainWindow()
         {
+            // Initialize window
             InitializeComponent();
+
+            // Initialize server
+            Server server = new Server();
         }
     }
 }
