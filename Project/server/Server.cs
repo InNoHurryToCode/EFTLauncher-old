@@ -44,9 +44,8 @@ namespace EFTServer
             Logger.Log(loginData.ToString());
 
             // calculate timestamp
-            double currentDay = Convert.ToDouble(DateTime.Now.ToString("yyyyMMddHHmmss"));
-            double tempTimestamp = Math.Floor(currentDay / 1000) + 45;
-
+            double millisecondsSince1970 = DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            double tempTimestamp = Math.Floor(millisecondsSince1970 / 1000) + 45;
             loginData.timestamp = (long)tempTimestamp ^ 698464131;
             Logger.Log("INFO: Login timestamp:");
             Logger.Log(loginData.timestamp.ToString());
