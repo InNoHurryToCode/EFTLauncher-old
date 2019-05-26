@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using EFTLauncher.ClientLogic;
 using EFTLauncher.ServerLogic;
 using EFTLauncher.Utility;
 
@@ -11,7 +12,8 @@ namespace EFTLauncher
     /// </summary>
     public partial class MainWindow : Window
     {
-        Server server;  // game server
+        Client client;
+        Server server;
 
         public MainWindow()
         {
@@ -21,7 +23,15 @@ namespace EFTLauncher
 
         private void StartClientButtonClicked(object sender, RoutedEventArgs e)
         {
-            // code here
+            // check server status
+            if (client != null)
+            {
+                return;
+            }
+
+            // start server
+            client = new Client();
+            client.Start(emailText.Text, passwordText.Text);
         }
 
         private void StartServerButtonClicked(object sender, RoutedEventArgs e)
@@ -34,7 +44,7 @@ namespace EFTLauncher
                 
             // start server
             server = new Server();
-            server.Start(emailText.Text, passwordText.Text, domainText.Text, System.Convert.ToInt32(portText.Text));
+            server.Start(domainText.Text, System.Convert.ToInt32(portText.Text));
         }
 
         private void StopServerButtonClicked(object sender, RoutedEventArgs e)

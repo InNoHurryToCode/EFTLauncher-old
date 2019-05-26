@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Client\Client.cs" />
     <Compile Include="Client\data\LoginData.cs" />
     <Compile Include="Client\Login.cs" />
     <Compile Include="Server\ResponseListener.cs" />

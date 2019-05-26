@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EFTLauncher"
         mc:Ignorable="d"
-        Title="Escape From Tarkov launcher" Height="230" Width="320">
+        Title="Escape From Tarkov launcher" Height="240" Width="320">
     <Grid Margin="0,0,3.6,0">
-        <TabControl HorizontalAlignment="Left" Height="200.8" VerticalAlignment="Top" Width="310">
+        <TabControl HorizontalAlignment="Left" Height="210.4" VerticalAlignment="Top" Width="310">
             <TabItem Header="Client">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Email" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
                     <TextBox x:Name="emailText" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="user@email.com" VerticalAlignment="Top" Width="278.4"/>
                     <Label Content="Password" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288"/>
                     <TextBox x:Name="passwordText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="password" VerticalAlignment="Top" Width="278.4"/>
-                    <Button x:Name="StartClient" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,133.2,0,0" Click="StartClientButtonClicked"/>
+                    <Button x:Name="StartClient" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="StartClientButtonClicked"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Server">
@@ -23,16 +23,18 @@
                     <TextBox x:Name="domainText" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="278.4"/>
                     <Label Content="Port" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288"/>
                     <TextBox x:Name="portText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="1337" VerticalAlignment="Top" Width="278.4"/>
-                    <Button x:Name="StartServer" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,133.2,0,0" Click="StartServerButtonClicked"/>
-                    <Button x:Name="StopServer" Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,133.2,0,0" Click="StopServerButtonClicked"/>
+                    <Button x:Name="StartServer" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="StartServerButtonClicked"/>
+                    <Button x:Name="StopServer" Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,142,0,0" Click="StopServerButtonClicked"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="53.6">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Game location" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
                     <TextBox x:Name="gameLocationText" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="C:\Games\EscapeFromTarkov" VerticalAlignment="Top" Width="278.4"/>
-                    <Label Content="Delete all logs in the log folder" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288"/>
-                    <Button x:Name="DeleteLogs" Content="Cleanup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,89.2,0,0" Click="DeleteLogsButtonClicked"/>
+                    <Label Content="Game server address" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288"/>
+                    <TextBox x:Name="gameServerAddressText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="https://localhost:8080" VerticalAlignment="Top" Width="278.4"/>
+                    <Label Content="Delete all logs in the log folder" HorizontalAlignment="Left" Margin="10,117.2,0,0" VerticalAlignment="Top" Width="288"/>
+                    <Button x:Name="DeleteLogs" Content="Cleanup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="DeleteLogsButtonClicked"/>
                 </Grid>
             </TabItem>
         </TabControl>
