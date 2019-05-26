@@ -24,6 +24,8 @@ namespace EFTLauncher.ClientLogic
             // get client config
             Logger.Log("INFO: Client preparing for launch");
 
+            /* AUTHENTICATION FAILS WHEN THIS IS USED
+             * USE WITH CAUSION
             // set client address
             SetClientAddress(address);
 
@@ -34,10 +36,11 @@ namespace EFTLauncher.ClientLogic
                 Logger.Log("ALERT: Client contains SClient.dll. Renaming.");
                 File.Move(SClientDirectory + "SClient.dll", SClientDirectory + "SClient.dll.disabled");
             }
+            */
 
             // launch game
             ProcessStartInfo game = new ProcessStartInfo();
-            game.FileName = gameDirectory + "EscapeFromTarkov.exe";
+            game.FileName = gameDirectory + @"/EscapeFromTarkov.exe";
             Process gameProcess = Process.Start(game);
 
             // initialize game watchdog
@@ -53,10 +56,13 @@ namespace EFTLauncher.ClientLogic
             Process[] gameProcess = Process.GetProcessesByName("EscapeFromTarkov");
             if (gameProcess.Length == 0)
             {
-                ResetGameFiles();
+                gameAlive.Enabled = false;
+                //ResetGameFiles();
             }
         }
 
+        /* AUTHENTICATION FAILS WHEN THIS IS ENABLED
+         * USE WITH CAUSION
         public void ResetGameFiles()
         {
             // rename SClient.dll if it exists
@@ -72,7 +78,7 @@ namespace EFTLauncher.ClientLogic
 
         public void SetClientAddress(string address)
         {
-            ConfigData configData = JsonHelper.LoadJson<ConfigData>(gameDirectory + @"client.config.json");
+            ConfigData configData = JsonHelper.LoadJson<ConfigData>(gameDirectory + @"/client.config.json");
 
             // override backendurl if it doesn't match
             if (configData.BackendUrl != address)
@@ -80,8 +86,9 @@ namespace EFTLauncher.ClientLogic
                 Logger.Log("INFO: Client backendurl doesn't match address. Overwriting.");
                 oldAddress = configData.BackendUrl;
                 configData.BackendUrl = address;
-                JsonHelper.SaveJson<ConfigData>(gameDirectory + @"client.config.json", configData);
+                JsonHelper.SaveJson<ConfigData>(gameDirectory + @"/client.config.json", configData);
             }
         }
+        */
     }
 }
