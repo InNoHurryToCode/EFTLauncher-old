@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EFTServer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="230" Width="320">
+        Title="Escape From Tarkov launcher" Height="230" Width="320">
     <Grid Margin="0,0,3.6,0">
         <TabControl HorizontalAlignment="Left" Height="200.8" VerticalAlignment="Top" Width="310">
             <TabItem Header="Client">
