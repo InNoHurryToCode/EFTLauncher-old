@@ -1,6 +1,7 @@
 ﻿using System;
-using EFTServer.server.data;
+using System.Timers;
 using Microsoft.Win32;
+using EFTServer.server.data;
 
 namespace EFTServer
 {
@@ -8,7 +9,10 @@ namespace EFTServer
     /// Emulated Escape From Tarkov server
     /// </summary>
     public class Server
-    {      
+    {
+        private int port = 8080;                // port to listen to
+        private Timer createLoginTokenTimer;    // checks when login token needs to be renewed
+
         public Server()
         {
             // intialize logger
@@ -24,11 +28,20 @@ namespace EFTServer
             Logger.Log("https://github.com/InNoHurryToCode/EFTServer");
             Logger.Log("Version: 0.0.1");
             Logger.Log("Created by Merijn Hendriks");
-            Logger.Log("INFO: Server started");
             Logger.Log("--------------------------------------------------");
+            Logger.Log("INFO: Server started");
 
-            // login
-            Login();
+            // setup comminucation
+            SetupPort();
+
+            // setup login token
+            CreateLoginToken();
+
+            // setup login token timer
+            createLoginTokenTimer = new Timer(1000 * 60);
+            createLoginTokenTimer.Elapsed += OnUpdateLoginToken;
+            createLoginTokenTimer.AutoReset = true;
+            createLoginTokenTimer.Enabled = true;
         }
 
         public void Stop()
@@ -36,33 +49,45 @@ namespace EFTServer
             Logger.Log("INFO: Server terminated");
         }
 
-        public void Login()
+        private void OnUpdateLoginToken(Object source, ElapsedEventArgs e)
         {
+            CreateLoginToken();
+        }
+
+        public void CreateLoginToken()
+        {
+            // log status
+            Logger.Log("INFO: Updating login token");
+
             // get login data
             string loginDataPath = @"data/account/login.json";
             LoginData loginData = JsonHelper.LoadJson<LoginData>(loginDataPath);
-            Logger.Log("INFO: Login data:");
-            Logger.Log(loginData.ToString());
 
             // calculate timestamp
             double millisecondsSince1970 = DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
             double tempTimestamp = Math.Floor(millisecondsSince1970 / 1000) + 45;
             loginData.timestamp = (long)tempTimestamp ^ 698464131;
-            Logger.Log("INFO: Login timestamp:");
-            Logger.Log(loginData.timestamp.ToString());
 
             // convert login data to encoded base64 json
             char[] json = JsonHelper.EncodeTo64(JsonHelper.NormalizeJson<LoginData>(loginData)).ToCharArray();
 
-            // convert json to bytes array
-            string bytes = "";
+            // convert encoded base64 json to bytes
+            byte[] bytes = new byte[json.Length];
             for (int i = 0; i < json.Length; ++i)
             {
-                bytes += (int)json[i];
+                bytes[i] += (byte)json[i];
             }
 
             // write login data to registery
-            Registry.SetValue(@"HKCU\\SOFTWARE\\Battlestate Games\\EscapeFromTarkov", "bC5vLmcuaS5u_h1472614626", bytes, RegistryValueKind.Binary);
+            Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\Battlestate Games\\EscapeFromTarkov", "bC5vLmcuaS5u_h1472614626", bytes, RegistryValueKind.Binary);
+        }
+
+        public void SetupPort()
+        {
+            // log status
+            Logger.Log("INFO: Setup port");
+
+            // code here
         }
     }
 }
