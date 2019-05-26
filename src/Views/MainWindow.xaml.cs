@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Threading;
 using EFTLauncher.ClientLogic;
 using EFTLauncher.ServerLogic;
 using EFTLauncher.Utility;
@@ -14,11 +15,13 @@ namespace EFTLauncher
     {
         Client client;
         Server server;
+        DispatcherTimer logUpdateTimer;
 
         public MainWindow()
         {
             // Initialize window
             InitializeComponent();
+            InitializeLogUpdater();
         }
 
         private void StartClientButtonClicked(object sender, RoutedEventArgs e)
@@ -47,19 +50,6 @@ namespace EFTLauncher
             server.Start(domainText.Text, System.Convert.ToInt32(portText.Text));
         }
 
-        private void StopServerButtonClicked(object sender, RoutedEventArgs e)
-        {
-            // check server status
-            if (server == null)
-            {
-                return;
-            }
-
-            // stop server
-            server.Stop();
-            server = null;
-        }
-
         private void DeleteLogsButtonClicked(object sender, RoutedEventArgs e)
         {
             // log status
@@ -77,6 +67,20 @@ namespace EFTLauncher
             {
                 dir.Delete(true);
             }
+        }
+
+        private void InitializeLogUpdater()
+        {
+            logUpdateTimer = new DispatcherTimer();
+            logUpdateTimer.Interval = new TimeSpan(0, 0, 1);
+            logUpdateTimer.Tick += new EventHandler(OnLogUpdate);
+            logUpdateTimer.Start();
+        }
+
+        private void OnLogUpdate(Object source, EventArgs e)
+        {
+            // set log textbox to logged text
+            logText.Text = Logger.log;
         }
     }
 }

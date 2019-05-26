@@ -5,8 +5,9 @@ namespace EFTLauncher.Utility
 {
     public static class Logger
     {
-        private static string filePath; // log file location
-        private static string fileName; // log file name
+        private static string filePath;                 // log file location
+        private static string fileName;                 // log file name
+        public static string log { get; private set; }  // logged text
 
         public static void SetFilePath(string path)
         {
@@ -20,10 +21,11 @@ namespace EFTLauncher.Utility
 
         public static void Log(string text)
         {
-            // get file
-            string file = filePath + fileName + ".log";
+            // store text in log
+            log += text + Environment.NewLine;
 
-            // write the text to the log
+            // write the text to the file
+            string file = filePath + fileName + ".log";
             using (StreamWriter sw = new StreamWriter(File.Open(file, FileMode.Append)))
             {
                 sw.WriteLine(text);

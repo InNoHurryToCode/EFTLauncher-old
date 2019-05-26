@@ -22,9 +22,8 @@
                     <Label Content="Domain" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
                     <TextBox x:Name="domainText" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="278.4"/>
                     <Label Content="Port" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288"/>
-                    <TextBox x:Name="portText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="1337" VerticalAlignment="Top" Width="278.4"/>
+                    <TextBox x:Name="portText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="8080" VerticalAlignment="Top" Width="278.4"/>
                     <Button x:Name="StartServer" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="StartServerButtonClicked"/>
-                    <Button x:Name="StopServer" Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,142,0,0" Click="StopServerButtonClicked"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="53.6">
@@ -35,6 +34,13 @@
                     <TextBox x:Name="gameServerAddressText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="https://localhost:8080" VerticalAlignment="Top" Width="278.4"/>
                     <Label Content="Delete all logs in the log folder" HorizontalAlignment="Left" Margin="10,117.2,0,0" VerticalAlignment="Top" Width="288"/>
                     <Button x:Name="DeleteLogs" Content="Cleanup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="DeleteLogsButtonClicked"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Log" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="53.6">
+                <Grid Background="#FFE5E5E5">
+                    <ScrollViewer>
+                        <TextBox x:Name="logText" Height="178" TextWrapping="Wrap" Text="Logged activity will appear here." Width="282"></TextBox>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>
