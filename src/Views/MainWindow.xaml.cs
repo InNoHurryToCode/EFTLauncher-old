@@ -34,7 +34,7 @@ namespace EFTLauncher
 
             // start server
             client = new Client();
-            client.Start(emailText.Text, passwordText.Text);
+            client.Start(emailText.Text, passwordText.Text, gameLocationText.Text, gameServerAddressText.Text);
         }
 
         private void StartServerButtonClicked(object sender, RoutedEventArgs e)
