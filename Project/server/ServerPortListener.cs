@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System.IO;
+using System.Text;
+using System.Threading;
 using System.Net;
 using EFTServer.server.tools;
 
@@ -8,7 +10,7 @@ namespace EFTServer.server
     {
         private volatile string address;    // server address
         private Thread thread;              // request listener thread
-        private volatile bool handle;       // thread status
+        private volatile bool threadHandle; // thread status
 
         public ServerPortListener(string domain, int port)
         {
@@ -29,7 +31,7 @@ namespace EFTServer.server
             Logger.Log("INFO: Initializing port listener");
 
             // create http listener thread
-            handle = true;
+            threadHandle = true;
             thread = new Thread(ListenerThread);
             thread.IsBackground = true;
             thread.Start();
@@ -37,7 +39,7 @@ namespace EFTServer.server
 
         public void Terminate()
         {
-            if (thread == null || !handle || Thread.CurrentThread == thread)
+            if (thread == null || !threadHandle || Thread.CurrentThread == thread)
             {
                 return;
             }
@@ -46,7 +48,7 @@ namespace EFTServer.server
             Logger.Log("INFO: Joining http listener thread");
 
             // terminate listener thread
-            handle = false;
+            threadHandle = false;
 
             if (!thread.Join(1000))
             {
@@ -67,14 +69,45 @@ namespace EFTServer.server
 
             // listener thread loop
             Logger.Log("INFO: Entering http listener thread loop");
-            while (handle)
+            while (threadHandle)
             {
                 HttpListenerContext context = httpListener.GetContext();
+
+                // receive request
+                HttpListenerRequest request = context.Request;
+                string requestText;
+                using (Stream receiveStream = request.InputStream)
+                {
+                    using (StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8))
+                    {
+                        requestText = readStream.ReadToEnd();
+                    }
+                }
+                Logger.Log("INFO: Recieved request from " + request.Url);
+                Logger.Log(requestText);
+
+                // get response to request
+                string responseText = GetResponseText(requestText);
+
+                // initiaize response response
+                HttpListenerResponse response = context.Response;
+                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseText);
+                response.ContentLength64 = buffer.Length;
+
+                // send response
+                Stream output = response.OutputStream;
+                output.Write(buffer, 0, buffer.Length);
+                output.Close();
             }
 
             // terminate listener
             httpListener.Stop();
             Logger.Log("INFO: Terminated http listener thread");
+        }
+
+        private string GetResponseText(string requestText)
+        {
+            return "";
         }
     }
 }
