@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using EFTServer.server.data;
 using Microsoft.Win32;
 
@@ -53,14 +52,13 @@ namespace EFTServer
             Logger.Log(loginData.timestamp.ToString());
 
             // convert login data to encoded base64 json
-            string json = JsonHelper.EncodeTo64(JsonHelper.NormalizeJson<LoginData>(loginData));
-            char[] codes = json.ToCharArray();
+            char[] json = JsonHelper.EncodeTo64(JsonHelper.NormalizeJson<LoginData>(loginData)).ToCharArray();
 
             // convert json to bytes array
             string bytes = "";
             for (int i = 0; i < json.Length; ++i)
             {
-                bytes += (int)codes[i];
+                bytes += (int)json[i];
             }
 
             // write login data to registery
