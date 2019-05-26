@@ -6,6 +6,10 @@ using EFTServer.server.tools;
 
 namespace EFTServer.server
 {
+    /// <summary>
+    /// Login token updater. Normally the BattleState Game Launcher creates this, but we want to run the game without it.
+    /// TODO: split the login token updater from the launcher and make a custom one.
+    /// </summary>
     class ServerLoginUpdater
     {
         private Timer createLoginTokenTimer;    // login token renewer
