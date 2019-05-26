@@ -3,7 +3,7 @@ using System.IO;
 
 namespace EFTServer
 {
-    static class Logger
+    public static class Logger
     {
         private static string filePath; // log file location
         private static string fileName; // log file name
