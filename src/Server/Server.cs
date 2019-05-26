@@ -12,10 +12,10 @@ namespace EFTLauncher.ServerLogic
     {
         ServerResponseListener serverResponseListener;
 
-        public void Start(string domain, int port)
+        public void Start(string domain)
         {
             Logger.Log("INFO: Server starting");
-            serverResponseListener = new ServerResponseListener(domain, port);
+            serverResponseListener = new ServerResponseListener(domain);
             serverResponseListener.Initialize();
         }
 

@@ -24,8 +24,6 @@ namespace EFTLauncher.ClientLogic
             // get client config
             Logger.Log("INFO: Client preparing for launch");
 
-            /* AUTHENTICATION FAILS WHEN THIS IS USED
-             * USE WITH CAUSION
             // set client address
             SetClientAddress(address);
 
@@ -36,7 +34,6 @@ namespace EFTLauncher.ClientLogic
                 Logger.Log("ALERT: Client contains SClient.dll. Renaming.");
                 File.Move(SClientDirectory + "SClient.dll", SClientDirectory + "SClient.dll.disabled");
             }
-            */
 
             // launch game
             ProcessStartInfo game = new ProcessStartInfo();
@@ -57,12 +54,10 @@ namespace EFTLauncher.ClientLogic
             if (gameProcess.Length == 0)
             {
                 gameAlive.Enabled = false;
-                //ResetGameFiles();
+                ResetGameFiles();
             }
         }
 
-        /* AUTHENTICATION FAILS WHEN THIS IS ENABLED
-         * USE WITH CAUSION
         public void ResetGameFiles()
         {
             // rename SClient.dll if it exists
@@ -89,6 +84,5 @@ namespace EFTLauncher.ClientLogic
                 JsonHelper.SaveJson<ConfigData>(gameDirectory + @"/client.config.json", configData);
             }
         }
-        */
     }
 }

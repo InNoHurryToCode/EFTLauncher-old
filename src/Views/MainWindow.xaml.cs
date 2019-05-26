@@ -47,7 +47,7 @@ namespace EFTLauncher
                 
             // start server
             server = new Server();
-            server.Start(domainText.Text, System.Convert.ToInt32(portText.Text));
+            server.Start(domainText.Text);
         }
 
         private void DeleteLogsButtonClicked(object sender, RoutedEventArgs e)
