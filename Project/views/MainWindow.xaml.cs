@@ -25,7 +25,7 @@ namespace EFTServer
                 
             // start server
             server = new Server();
-            server.Start();
+            server.Start(emailText.Text, passwordText.Text, domainText.Text, System.Convert.ToInt32(portText.Text));
         }
 
         private void StopButtonClicked(object sender, RoutedEventArgs e)

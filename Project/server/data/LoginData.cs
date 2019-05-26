@@ -2,12 +2,15 @@
 
 namespace EFTServer.server.data
 {
+    /// <summary>
+    /// Contains the login data for the Escape From Tarkov client
+    /// </summary>
     public struct LoginData
     {
-        public string email;
-        public string password;
-        public bool toggle;
-        public long timestamp;
+        public string email;    // login email
+        public string password; // login password
+        public bool toggle;     // login successful
+        public long timestamp;  // login timestamp
 
         public override string ToString()
         {

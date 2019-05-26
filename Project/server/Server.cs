@@ -9,10 +9,8 @@ namespace EFTServer
     /// </summary>
     public class Server
     {
-        private string domain = "localhost";    // server domain
-        private int port = 8080;                // server port
-        ServerLoginUpdater serverLoginUpdater;  // login updater
-        ServerPortListener serverPortListener;  // port listener
+        ClientLogin clientLogin;                        // login updater
+        ServerResponseListener serverResponseListener;  // port listener
 
         public Server()
         {
@@ -31,22 +29,22 @@ namespace EFTServer
             Logger.Log("INFO: Server started");
         }
 
-        public void Start()
+        public void Start(string email, string password, string domain, int port)
         {
             // initialize processes
-            serverLoginUpdater = new ServerLoginUpdater();
-            serverPortListener = new ServerPortListener(domain, port);
+            clientLogin = new ClientLogin(email, password);
+            serverResponseListener = new ServerResponseListener(domain, port);
 
             // start server
-            serverLoginUpdater.Initialize();
-            serverPortListener.Initialize();
+            clientLogin.Initialize();
+            serverResponseListener.Initialize();
         }
 
         public void Stop()
         {
             // terminate processes
-            serverLoginUpdater.Terminate();
-            serverPortListener.Terminate();
+            clientLogin.Terminate();
+            serverResponseListener.Terminate();
 
             // log status
             Logger.Log("INFO: Server terminated");

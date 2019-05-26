@@ -10,9 +10,21 @@ namespace EFTServer.server
     /// Login token updater. Normally the BattleState Game Launcher creates this, but we want to run the game without it.
     /// TODO: split the login token updater from the launcher and make a custom one.
     /// </summary>
-    class ServerLoginUpdater
+    class ClientLogin
     {
         private Timer createLoginTokenTimer;    // login token renewer
+        LoginData loginData;                    // login information
+
+        public ClientLogin(string email, string password)
+        {
+            // set login info
+            loginData.email = email;
+            loginData.password = password;
+
+            // log status
+            Logger.Log("INFO: Login email: " + loginData.email);
+            Logger.Log("INFO: Login password: " + loginData.password);
+        }
 
         public void Initialize()
         {
@@ -59,14 +71,10 @@ namespace EFTServer.server
             // log status
             Logger.Log("INFO: Updating login token");
 
-            // get login data
-            string loginDataPath = @"data/account/login.json";
-            LoginData loginData = JsonHelper.LoadJson<LoginData>(loginDataPath);
-
             // calculate timestamp
             double millisecondsSince1970 = DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-            double tempTimestamp = Math.Floor(millisecondsSince1970 / 1000) + 45;
-            loginData.timestamp = (long)tempTimestamp ^ 698464131;
+            loginData.timestamp = (long)(Math.Floor(millisecondsSince1970 / 1000) + 45) ^ 698464131;
+            Logger.Log("INFO: Login timestamp: " + loginData.timestamp);
 
             // convert login data to encoded base64 json
             char[] json = JsonHelper.EncodeTo64(JsonHelper.NormalizeJson<LoginData>(loginData)).ToCharArray();

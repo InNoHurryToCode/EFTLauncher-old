@@ -6,18 +6,17 @@ using EFTServer.server.tools;
 
 namespace EFTServer.server
 {
-    class ServerPortListener
+    class ServerResponseListener
     {
         private volatile string address;    // server address
         private Thread thread;              // request listener thread
         private volatile bool threadHandle; // thread status
 
-        public ServerPortListener(string domain, int port)
+        public ServerResponseListener(string domain, int port)
         {
             // get address
             address = string.Format("http://{0}:{1}/", domain, port);
-            Logger.Log("INFO: Address:");
-            Logger.Log(address);
+            Logger.Log("INFO: Server address: " + address);
         }
 
         public void Initialize()
