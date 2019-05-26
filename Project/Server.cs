@@ -11,12 +11,9 @@ namespace EFTServer
     {      
         public Server()
         {
-            // setup logger
+            // intialize logger
             Logger.SetFilePath(Environment.CurrentDirectory + "/data/logs/");
             Logger.SetFileName("server");
-
-            // start the server
-            Start();
         }
 
         public void Start()
@@ -27,6 +24,12 @@ namespace EFTServer
             Logger.Log("Version: 0.0.1");
             Logger.Log("Created by Merijn Hendriks");
             Logger.Log("--------------------------------------------------");
+            Logger.Log("INFO: Server started");
+        }
+
+        public void Stop()
+        {
+            Logger.Log("INFO: Server terminated");
         }
     }
 }
