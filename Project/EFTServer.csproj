@@ -53,8 +53,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="server\data\LoginData.cs" />
-    <Compile Include="tools\JsonHelper.cs" />
-    <Compile Include="tools\Logger.cs" />
+    <Compile Include="server\ServerLoginUpdater.cs" />
+    <Compile Include="server\ServerPortListener.cs" />
+    <Compile Include="server\tools\JsonHelper.cs" />
+    <Compile Include="server\tools\Logger.cs" />
     <Compile Include="server\Server.cs" />
     <Page Include="views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
