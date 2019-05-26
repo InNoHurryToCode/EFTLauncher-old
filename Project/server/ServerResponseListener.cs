@@ -83,7 +83,6 @@ namespace EFTServer.server
                     }
                 }
                 Logger.Log("INFO: Recieved request from " + request.Url);
-                Logger.Log(requestText);
 
                 // get response to request
                 string responseText = GetResponseText(requestText);
