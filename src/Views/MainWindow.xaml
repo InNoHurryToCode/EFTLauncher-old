@@ -30,7 +30,7 @@
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Game location" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
                     <TextBox x:Name="gameLocationText" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="C:\Games\EscapeFromTarkov" VerticalAlignment="Top" Width="278.4"/>
-                    <Label Content="Game server address" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288"/>
+                    <Label Content="Game server to connect to" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288"/>
                     <TextBox x:Name="gameServerAddressText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="https://localhost:8080" VerticalAlignment="Top" Width="278.4"/>
                     <Label Content="Delete all logs in the log folder" HorizontalAlignment="Left" Margin="10,117.2,0,0" VerticalAlignment="Top" Width="288"/>
                     <Button x:Name="DeleteLogs" Content="Cleanup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="DeleteLogsButtonClicked"/>
