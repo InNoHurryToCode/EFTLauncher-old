@@ -16,7 +16,7 @@ namespace EFTServer
         {
             // intialize logger
             Logger.SetFilePath(Environment.CurrentDirectory + @"/logs/");
-            Logger.SetFileName("server");
+            Logger.SetFileName(DateTime.Now.ToString("yyyyMMddTHHmmss").Replace(":", "."));
 
             // create log
             Logger.Log("--------------------------------------------------");
