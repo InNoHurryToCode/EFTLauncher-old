@@ -1,8 +1,8 @@
-﻿<Application x:Class="EFTServer.App"
+﻿<Application x:Class="EFTLauncher.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:EFTServer"
-             StartupUri="views/MainWindow.xaml">
+             xmlns:local="clr-namespace:EFTLauncher"
+             StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
          
     </Application.Resources>

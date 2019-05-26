@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using EFTServer.server.tools;
+using EFTLauncher.ServerLogic;
+using EFTLauncher.Utility;
 
-namespace EFTServer
+namespace EFTLauncher
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

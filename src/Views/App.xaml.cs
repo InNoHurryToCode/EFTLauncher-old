@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
-using EFTServer.server.tools;
+using EFTLauncher.Utility;
 
-namespace EFTServer
+namespace EFTLauncher
 {
     /// <summary>
     /// Interaction logic for App.xaml

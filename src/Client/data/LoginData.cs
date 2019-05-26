@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EFTServer.server.data
+namespace EFTLauncher.ClientData
 {
     /// <summary>
     /// Contains the login data for the Escape From Tarkov client

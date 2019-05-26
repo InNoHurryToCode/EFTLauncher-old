@@ -2,9 +2,9 @@
 using System.Text;
 using System.Threading;
 using System.Net;
-using EFTServer.server.tools;
+using EFTLauncher.Utility;
 
-namespace EFTServer.server
+namespace EFTLauncher.ServerLogic
 {
     class ServerResponseListener
     {

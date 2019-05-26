@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace EFTServer.server.tools
+namespace EFTLauncher.Utility
 {
     public static class Logger
     {

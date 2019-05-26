@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace EFTServer.server.tools
+namespace EFTLauncher.Utility
 {
     public static class JsonHelper
     {

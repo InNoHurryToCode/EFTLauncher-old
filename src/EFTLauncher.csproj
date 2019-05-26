@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CEB2F20A-6A8E-463C-8849-9145E28F35E4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>EFTServer</RootNamespace>
-    <AssemblyName>EFTServer</AssemblyName>
+    <RootNamespace>EFTLauncher</RootNamespace>
+    <AssemblyName>EFTLauncher</AssemblyName>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,7 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>EFTServer.App</StartupObject>
+    <StartupObject>EFTLauncher.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -48,25 +51,25 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="views\App.xaml">
+    <ApplicationDefinition Include="Views\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="server\data\LoginData.cs" />
-    <Compile Include="server\ClientLogin.cs" />
-    <Compile Include="server\ServerResponseListener.cs" />
-    <Compile Include="server\tools\JsonHelper.cs" />
-    <Compile Include="server\tools\Logger.cs" />
-    <Compile Include="server\Server.cs" />
-    <Page Include="views\MainWindow.xaml">
+    <Compile Include="Client\data\LoginData.cs" />
+    <Compile Include="Client\Login.cs" />
+    <Compile Include="Server\ResponseListener.cs" />
+    <Compile Include="Utility\JsonHelper.cs" />
+    <Compile Include="Utility\Logger.cs" />
+    <Compile Include="Server\Server.cs" />
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="views\App.xaml.cs">
+    <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="views\MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +98,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

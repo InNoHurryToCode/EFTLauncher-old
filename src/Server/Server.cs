@@ -1,8 +1,9 @@
 ﻿using System;
-using EFTServer.server;
-using EFTServer.server.tools;
+using EFTLauncher.ClientLogic;
+using EFTLauncher.ServerLogic;
+using EFTLauncher.Utility;
 
-namespace EFTServer
+namespace EFTLauncher.ServerLogic
 {
     /// <summary>
     /// Emulated Escape From Tarkov server

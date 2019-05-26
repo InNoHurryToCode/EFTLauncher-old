@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Timers;
 using Microsoft.Win32;
-using EFTServer.server.data;
-using EFTServer.server.tools;
+using EFTLauncher.ClientData;
+using EFTLauncher.Utility;
 
-namespace EFTServer.server
+namespace EFTLauncher.ClientLogic
 {
     /// <summary>
     /// Login token updater. Normally the BattleState Game Launcher creates this, but we want to run the game without it.
