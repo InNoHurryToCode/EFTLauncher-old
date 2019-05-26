@@ -7,18 +7,18 @@ namespace EFTLauncher.ClientLogic
     /// </summary>
     class Client
     {
-        ClientLogin clientLogin;
+        Login login;
 
         public void Start(string email, string password)
         {
             Logger.Log("INFO: Client starting");
-            clientLogin = new ClientLogin(email, password);
-            clientLogin.Initialize();
+            login = new Login(email, password);
+            login.Initialize();
         }
 
         public void Stop()
         {
-            clientLogin.Terminate();
+            login.Terminate();
             Logger.Log("INFO: Client terminated");
         }
     }

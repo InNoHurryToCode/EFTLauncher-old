@@ -10,12 +10,12 @@ namespace EFTLauncher.ClientLogic
     /// Login token updater. Normally the BattleState Game Launcher creates this, but we want to run the game without it.
     /// TODO: split the login token updater from the launcher and make a custom one.
     /// </summary>
-    class ClientLogin
+    class Login
     {
         private Timer createLoginTokenTimer;    // login token renewer
         LoginData loginData;                    // login information
 
-        public ClientLogin(string email, string password)
+        public Login(string email, string password)
         {
             // set login info
             loginData.email = email;
