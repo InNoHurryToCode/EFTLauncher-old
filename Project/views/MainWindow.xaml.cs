@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
+using EFTServer.server.tools;
 
 namespace EFTServer
 {
@@ -15,7 +18,12 @@ namespace EFTServer
             InitializeComponent();
         }
 
-        private void StartButtonClicked(object sender, RoutedEventArgs e)
+        private void StartClientButtonClicked(object sender, RoutedEventArgs e)
+        {
+            // code here
+        }
+
+        private void StartServerButtonClicked(object sender, RoutedEventArgs e)
         {
             // check server status
             if (server != null)
@@ -28,7 +36,7 @@ namespace EFTServer
             server.Start(emailText.Text, passwordText.Text, domainText.Text, System.Convert.ToInt32(portText.Text));
         }
 
-        private void StopButtonClicked(object sender, RoutedEventArgs e)
+        private void StopServerButtonClicked(object sender, RoutedEventArgs e)
         {
             // check server status
             if (server == null)
@@ -39,6 +47,25 @@ namespace EFTServer
             // stop server
             server.Stop();
             server = null;
+        }
+
+        private void DeleteLogsButtonClicked(object sender, RoutedEventArgs e)
+        {
+            // log status
+            Logger.Log("ALERT: Deleting all log files");
+
+            // delete all files and directories in <serverdir>/logs
+            DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + @"/logs/");
+
+            foreach (FileInfo file in directoryInfo.GetFiles())
+            {
+                file.Delete();
+            }
+
+            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+            {
+                dir.Delete(true);
+            }
         }
     }
 }
