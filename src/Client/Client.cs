@@ -10,7 +10,7 @@ namespace EFTLauncher.ClientLogic
         Login login;
         GameMonitor gameMonitor;
 
-        public void Start(string email, string password, string gameDirectory, string address)
+        public void Start(string email, string password, string gameDirectory, string domain)
         {
             // log state
             Logger.Log("INFO: Client starting");
@@ -21,7 +21,7 @@ namespace EFTLauncher.ClientLogic
 
             // launch the game
             gameMonitor = new GameMonitor(gameDirectory);
-            gameMonitor.LaunchGame(address);
+            gameMonitor.LaunchGame(domain);
         }
 
         public void Stop()
