@@ -4,18 +4,24 @@ using System.Threading;
 using System.Net;
 using EFTLauncher.Utility;
 using System;
+using System.Text.RegularExpressions;
 
 namespace EFTLauncher.ServerLogic
 {
     /// <summary>
     /// TODO: handle IP address
-    /// TODO: Make json files of all hardcoded data
     /// </summary>
     class ServerResponseListener
     {
         private volatile string domain;     // server address
         private Thread thread;              // request listener thread
         private volatile bool threadHandle; // thread status
+        Regex assort = new Regex("/client/trading/api/getTraderAssort/([a-z0-9])+"); 
+        Regex prices = new Regex("/client/trading/api/getUserAssortPrice/([a-z0-9])+");
+        Regex getTrader = new Regex("/client/trading/api/getTrader/");
+        Regex traderImg = new Regex("/files/([a-z0-9/\.jpng])+");
+        Regex content = new Regex("/uploads/([a-z0-9/\.jpng_])+");
+        Regex pushNotifier = new Regex("/push/notifier/get/");
 
         public ServerResponseListener(string domain)
         {
