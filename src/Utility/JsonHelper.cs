@@ -5,12 +5,12 @@ namespace EFTLauncher.Utility
 {
     public static class JsonHelper
     {
-        public static T LoadJson<T>(string file)
+        public static T LoadJson<T>(string filepath)
         {
             T data;
 
-            // read the json data
-            using (StreamReader sr = new StreamReader(file))
+            // load the json data
+            using (StreamReader sr = new StreamReader(filepath))
             {
                 string json = sr.ReadToEnd();
                 data = JsonConvert.DeserializeObject<T>(json);
@@ -19,12 +19,25 @@ namespace EFTLauncher.Utility
             return data;
         }
 
-        public static string SaveJson<T>(string file, T obj)
+        public static string ReadJson(string filepath)
+        {
+            string data = "";
+
+            // read the json data
+            using (StreamReader sr = new StreamReader(filepath))
+            {
+                data = sr.ReadToEnd();
+            }
+
+            return data;
+        }
+
+        public static string SaveJson<T>(string filepath, T obj)
         {
             JsonSerializer serializer = new JsonSerializer();
             serializer.NullValueHandling = NullValueHandling.Ignore;
 
-            using (StreamWriter sw = new StreamWriter(file))
+            using (StreamWriter sw = new StreamWriter(filepath))
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
