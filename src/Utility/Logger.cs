@@ -57,7 +57,7 @@ namespace EFTLauncher.Utility
             }
 
             // create new log and inform of deletion
-            Log("ALERT: Deleted all log files");
+            Log("INFO: Deleted all log files");
         }
     }
 }
