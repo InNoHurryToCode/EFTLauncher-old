@@ -8,7 +8,6 @@ namespace EFTLauncher.ClientLogic
 {
     /// <summary>
     /// Login token updater. Normally the BattleState Game Launcher creates this, but we want to run the game without it.
-    /// TODO: split the login token updater from the launcher and make a custom one.
     /// </summary>
     class Login
     {
@@ -72,8 +71,8 @@ namespace EFTLauncher.ClientLogic
             Logger.Log("INFO: Updating login token");
 
             // calculate timestamp
-            double millisecondsSince1970 = DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-            loginData.timestamp = (long)(Math.Floor(millisecondsSince1970 / 1000) + 45) ^ 698464131;
+            double secondsSince1970 = DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            loginData.timestamp = (long)(Math.Floor(secondsSince1970 + 45)) ^ 698464131;
             Logger.Log("INFO: Login timestamp: " + loginData.timestamp);
 
             // convert login data to encoded base64 json
