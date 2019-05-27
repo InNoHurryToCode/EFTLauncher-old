@@ -8,7 +8,7 @@ namespace EFTLauncher.ServerLogic
 {
     class ServerResponseListener
     {
-        private volatile string domain;    // server address
+        private volatile string domain;     // server address
         private Thread thread;              // request listener thread
         private volatile bool threadHandle; // thread status
 
@@ -63,6 +63,15 @@ namespace EFTLauncher.ServerLogic
             // initialize listener
             Logger.Log("INFO: Initializing http listener thread");
             HttpListener httpListener = new HttpListener();
+
+            // check domain
+            string charToCheck = domain.Substring(domain.Length - 1);
+            if (charToCheck != @"/")
+            {
+                domain += @"/";
+            }
+
+            // listen to domain
             httpListener.Prefixes.Add(domain);
             httpListener.Start();
 
