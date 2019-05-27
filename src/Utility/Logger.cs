@@ -12,6 +12,11 @@ namespace EFTLauncher.Utility
         public static void SetFilePath(string path)
         {
             filePath = path;
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
         }
 
         public static void SetFileName(string name)
@@ -25,10 +30,10 @@ namespace EFTLauncher.Utility
             log += text + Environment.NewLine;
 
             // write the text to the file
-            string file = filePath + fileName + ".log";
-            using (StreamWriter sw = new StreamWriter(File.Open(file, FileMode.Append)))
+            using (StreamWriter sw = new StreamWriter(filePath + fileName + ".log", false))
             {
-                sw.WriteLine(text);
+                sw.Write(log);
+                sw.Close();
             }
 
             // show logged text in the console
