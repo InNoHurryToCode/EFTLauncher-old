@@ -62,6 +62,7 @@
     <Compile Include="Client\Login.cs" />
     <Compile Include="Server\ResponseListener.cs" />
     <Compile Include="Utility\JsonHelper.cs" />
+    <Compile Include="Utility\LauncherSettings.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Server\Server.cs" />
     <Page Include="Views\MainWindow.xaml">

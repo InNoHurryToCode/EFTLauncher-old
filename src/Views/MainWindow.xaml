@@ -11,16 +11,16 @@
             <TabItem Header="Client">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Email" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
-                    <TextBox x:Name="emailText" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="user@email.com" VerticalAlignment="Top" Width="278.4"/>
+                    <TextBox x:Name="email" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="278.4" TextChanged="EmailChanged"/>
                     <Label Content="Password" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288"/>
-                    <TextBox x:Name="passwordText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="password" VerticalAlignment="Top" Width="278.4"/>
+                    <TextBox x:Name="password" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="278.4" TextChanged="PasswordChanged"/>
                     <Button x:Name="StartClient" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="StartClientButtonClicked"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Server">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Domain" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
-                    <TextBox x:Name="domainText" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="http://localhost:8080/" VerticalAlignment="Top" Width="278.4"/>
+                    <TextBox x:Name="serverDomain" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="278.4" TextChanged="ServerDomainChanged"/>
                     <Button x:Name="StartServer" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="StartServerButtonClicked"/>
                 </Grid>
             </TabItem>
@@ -31,9 +31,9 @@
                         <ColumnDefinition Width="277*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Game location" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288" Grid.ColumnSpan="2"/>
-                    <TextBox x:Name="gameLocationText" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="C:\Games\EscapeFromTarkov" VerticalAlignment="Top" Width="278.4" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="gameLocation" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278.4" Grid.ColumnSpan="2" TextChanged="GameLocationChanged"/>
                     <Label Content="Game server to connect to" HorizontalAlignment="Left" Margin="10,63.6,0,0" VerticalAlignment="Top" Width="288" Grid.ColumnSpan="2"/>
-                    <TextBox x:Name="gameServerAddressText" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="http://localhost:8080/" VerticalAlignment="Top" Width="278.4" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="gameDomain" HorizontalAlignment="Left" Height="23" Margin="10,89.2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="278.4" Grid.ColumnSpan="2" TextChanged="GameDomainChanged"/>
                     <Label Content="Delete all logs in the log folder" HorizontalAlignment="Left" Margin="10,117.2,0,0" VerticalAlignment="Top" Width="288" Grid.ColumnSpan="2"/>
                     <Button x:Name="DeleteLogs" Content="Cleanup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="DeleteLogsButtonClicked" Grid.ColumnSpan="2"/>
                 </Grid>
