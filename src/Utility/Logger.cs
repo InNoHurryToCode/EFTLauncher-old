@@ -34,5 +34,25 @@ namespace EFTLauncher.Utility
             // show logged text in the console
             Console.WriteLine(text);
         }
+
+        public static void DeleteAllLogs()
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
+
+            // delete all files
+            foreach (FileInfo file in directoryInfo.GetFiles())
+            {
+                file.Delete();
+            }
+
+            // delete all subdirectories
+            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+            {
+                dir.Delete(true);
+            }
+
+            // create new log and inform of deletion
+            Log("ALERT: Deleted all log files");
+        }
     }
 }

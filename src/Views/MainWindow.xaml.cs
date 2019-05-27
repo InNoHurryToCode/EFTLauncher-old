@@ -52,21 +52,7 @@ namespace EFTLauncher
 
         private void DeleteLogsButtonClicked(object sender, RoutedEventArgs e)
         {
-            // log status
-            Logger.Log("ALERT: Deleting all log files");
-
-            // delete all files and directories in <serverdir>/logs
-            DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + @"/logs/");
-
-            foreach (FileInfo file in directoryInfo.GetFiles())
-            {
-                file.Delete();
-            }
-
-            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
-            {
-                dir.Delete(true);
-            }
+            Logger.DeleteAllLogs();
         }
 
         private void InitializeLogUpdater()
