@@ -86,7 +86,7 @@ namespace EFTLauncher.ClientLogic
             }
 
             // write login data to registery
-            Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\Battlestate Games\\EscapeFromTarkov", "bC5vLmcuaS5u_h1472614626", bytes, RegistryValueKind.Binary);
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Battlestate Games\EscapeFromTarkov", "bC5vLmcuaS5u_h1472614626", bytes, RegistryValueKind.Binary);
         }
     }
 }

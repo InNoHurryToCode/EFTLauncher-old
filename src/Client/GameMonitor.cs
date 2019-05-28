@@ -11,7 +11,7 @@ namespace EFTLauncher.ClientLogic
     {
         private string gameDirectory;
         private string SClientDirectory;
-        private string oldAddress;
+        private string originalDomain;
         private Timer gameAlive;
 
         public GameMonitor(string gameDirectory)
@@ -21,11 +21,16 @@ namespace EFTLauncher.ClientLogic
 
         public void LaunchGame(string address)
         {
+            if (gameAlive != null)
+            {
+                return;
+            }
+
             // get client config
             Logger.Log("INFO: Client preparing for launch");
 
             // set client address
-            SetClientAddress(address);
+            SetGameDomain(address);
 
             // rename SClient.dll if it exists
             SClientDirectory = gameDirectory + @"/EscapeFromTarkov_Data/Managed/";
@@ -68,24 +73,24 @@ namespace EFTLauncher.ClientLogic
             // rename SClient.dll if it exists
             if (File.Exists(SClientDirectory + "SClient.dll.disabled"))
             {
-                Logger.Log("INFO: Client contains SClient.dll, renaming dll");
+                Logger.Log("INFO: Client contains SClient.dll.disabled, renaming dll");
                 File.Move(SClientDirectory + "SClient.dll.disabled", SClientDirectory + "SClient.dll");
             }
 
             // reset client address
-            SetClientAddress(oldAddress);
+            SetGameDomain(originalDomain);
         }
 
-        public void SetClientAddress(string address)
+        public void SetGameDomain(string domain)
         {
             ConfigData configData = JsonHelper.LoadJson<ConfigData>(gameDirectory + @"/client.config.json");
 
             // override backendurl if it doesn't match
-            if (configData.BackendUrl != address)
+            if (configData.BackendUrl != domain)
             {
-                Logger.Log("INFO: Client BackendUrl doesn't match domain, overwriting config");
-                oldAddress = configData.BackendUrl;
-                configData.BackendUrl = address;
+                Logger.Log("INFO: Client BackendUrl doesn't match domain" + domain + ", overwriting config");
+                originalDomain = configData.BackendUrl;
+                configData.BackendUrl = domain;
                 JsonHelper.SaveJson<ConfigData>(gameDirectory + @"/client.config.json", configData);
             }
         }

@@ -1,7 +1,4 @@
-﻿using System;
-using EFTLauncher.ClientLogic;
-using EFTLauncher.ServerLogic;
-using EFTLauncher.Utility;
+﻿using EFTLauncher.Utility;
 
 namespace EFTLauncher.ServerLogic
 {

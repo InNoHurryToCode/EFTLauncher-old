@@ -23,55 +23,18 @@ namespace EFTLauncher
         {
             // Initialize window
             InitializeComponent();
-            Start();
-        }
-
-        private void Start()
-        {
             InitializeLogUpdater();
             LoadSettings();
-            DetectGameLocation();
-        }
 
-        private void DetectGameLocation()
-        {
-            string foundLocation = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov", "UninstallString", "");
-            if (!String.IsNullOrEmpty(foundLocation))
-            {
-                Logger.Log("INFO: Detected game installation");
-                gameLocation.Text = new FileInfo(foundLocation).DirectoryName;
-            }
-        }
-
-        private void StartClientButtonClicked(object sender, RoutedEventArgs e)
-        {
-            // check server status
-            if (client != null)
-            {
-                return;
-            }
-
-            // start server
+            // initialize client and server
             client = new Client();
-            client.Start(email.Text, password.Text, gameLocation.Text, gameDomain.Text);
-        }
-
-        private void StartServerButtonClicked(object sender, RoutedEventArgs e)
-        {
-            // check server status
-            if (server != null)
-            {
-                return;
-            }
-                
-            // start server
             server = new Server();
-            server.Start(serverDomain.Text);
-        }
 
-        private void DeleteLogsButtonClicked(object sender, RoutedEventArgs e)
-        {
-            Logger.DeleteAllLogs();
+            // detect game installation
+            if (!String.IsNullOrEmpty(gameLocation.Text))
+            {
+                gameLocation.Text = client.DetectGameLocation();
+            }
         }
 
         private void InitializeLogUpdater()
@@ -84,7 +47,6 @@ namespace EFTLauncher
 
         private void OnLogUpdate(Object source, EventArgs e)
         {
-            // set log textbox to logged text
             logText.Text = Logger.log;
         }
 
@@ -92,7 +54,7 @@ namespace EFTLauncher
         {
             // load settings
             Logger.Log("INFO: Loading launcher settings");
-            launcherSettings = JsonHelper.LoadJson<LauncherSettings>(Environment.CurrentDirectory + "/settings.json");
+            launcherSettings = JsonHelper.LoadJson<LauncherSettings>(Environment.CurrentDirectory + @"/settings.json");
 
             // apply settings
             email.Text = launcherSettings.email;
@@ -105,7 +67,7 @@ namespace EFTLauncher
         private void SaveSettings()
         {
             // save settings
-            JsonHelper.SaveJson<LauncherSettings>(Environment.CurrentDirectory + "/settings.json", launcherSettings);
+            JsonHelper.SaveJson<LauncherSettings>(Environment.CurrentDirectory + @"/settings.json", launcherSettings);
         }
 
         private void EmailChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -138,9 +100,24 @@ namespace EFTLauncher
             SaveSettings();
         }
 
+        private void StartClientButtonClicked(object sender, RoutedEventArgs e)
+        {
+            client.Start(email.Text, password.Text, gameLocation.Text, gameDomain.Text);
+        }
+
+        private void StartServerButtonClicked(object sender, RoutedEventArgs e)
+        {
+            server.Start(serverDomain.Text);
+        }
+
+        private void DeleteLogsButtonClicked(object sender, RoutedEventArgs e)
+        {
+            Logger.DeleteAllLogs();
+        }
+
         private void DetectGameButtonClicked(object sender, RoutedEventArgs e)
         {
-            DetectGameLocation();
+            gameLocation.Text = client.DetectGameLocation();
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System.IO;
-using System.Text;
-using System.Threading;
+﻿using System;
+using System.IO;
 using System.Net;
-using EFTLauncher.Utility;
-using System;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using EFTLauncher.Utility;
 
 namespace EFTLauncher.ServerLogic
 {
