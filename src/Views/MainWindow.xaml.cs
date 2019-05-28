@@ -5,6 +5,7 @@ using System.Windows.Threading;
 using EFTLauncher.ClientLogic;
 using EFTLauncher.ServerLogic;
 using EFTLauncher.Utility;
+using Microsoft.Win32;
 
 namespace EFTLauncher
 {
@@ -22,8 +23,24 @@ namespace EFTLauncher
         {
             // Initialize window
             InitializeComponent();
+            Start();
+        }
+
+        private void Start()
+        {
             InitializeLogUpdater();
             LoadSettings();
+            DetectGameLocation();
+        }
+
+        private void DetectGameLocation()
+        {
+            string foundLocation = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov", "UninstallString", "");
+            if (!String.IsNullOrEmpty(foundLocation))
+            {
+                Logger.Log("INFO: Detected game installation");
+                gameLocation.Text = new FileInfo(foundLocation).DirectoryName;
+            }
         }
 
         private void StartClientButtonClicked(object sender, RoutedEventArgs e)
@@ -88,7 +105,6 @@ namespace EFTLauncher
         private void SaveSettings()
         {
             // save settings
-            Logger.Log("INFO: Saving launcher settings");
             JsonHelper.SaveJson<LauncherSettings>(Environment.CurrentDirectory + "/settings.json", launcherSettings);
         }
 
@@ -120,6 +136,11 @@ namespace EFTLauncher
         {
             launcherSettings.gameDomain = gameDomain.Text;
             SaveSettings();
+        }
+
+        private void DetectGameButtonClicked(object sender, RoutedEventArgs e)
+        {
+            DetectGameLocation();
         }
     }
 }
