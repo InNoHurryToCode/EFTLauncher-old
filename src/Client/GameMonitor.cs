@@ -88,7 +88,7 @@ namespace EFTLauncher.ClientLogic
             // override backendurl if it doesn't match
             if (configData.BackendUrl != domain)
             {
-                Logger.Log("INFO: Client BackendUrl doesn't match domain" + domain + ", overwriting config");
+                Logger.Log("INFO: Client BackendUrl doesn't match domain " + domain + ", overwriting config");
                 originalDomain = configData.BackendUrl;
                 configData.BackendUrl = domain;
                 JsonHelper.SaveJson<ConfigData>(gameDirectory + @"/client.config.json", configData);
