@@ -92,9 +92,10 @@ namespace EFTLauncher.ServerLogic
             while (threadHandle)
             {
                 HttpListenerContext context = httpListener.GetContext();
+                HttpListenerRequest request = context.Request;
+                HttpListenerResponse response = context.Response;
 
                 // receive request
-                HttpListenerRequest request = context.Request;
                 string requestURl;
                 using (Stream receiveStream = request.InputStream)
                 {
@@ -103,16 +104,17 @@ namespace EFTLauncher.ServerLogic
                         requestURl = readStream.ReadToEnd();
                     }
                 }
-                Logger.Log("INFO: Recieved request from " + request.Url);
+                Logger.Log("INFO: Recieved request from " + request.RemoteEndPoint.Address + " for " + request.Url);
 
                 // get response to request
                 string responseData = GetResponseText(requestURl);
 
+                // TODO: REWRITE THIS
                 // initiaize response response
-                HttpListenerResponse response = context.Response;
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseData);
                 response.ContentLength64 = buffer.Length;
 
+                // TODO: REWRITE THIS
                 // send response
                 Stream output = response.OutputStream;
                 output.Write(buffer, 0, buffer.Length);
