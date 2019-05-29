@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using EFTLauncher.Utility;
@@ -13,16 +11,18 @@ namespace EFTLauncher.ServerLogic
     /// </summary>
     class ServerResponseListener
     {
-        private volatile string domain;     // server address
-        private Thread thread;              // request listener thread
-        private volatile bool threadHandle; // thread status
+        private Thread thread;                  // request listener thread
+        private volatile bool threadHandle;     // thread status
+        private volatile string domain;         // server address
+        private volatile string finalOutput;    // command to send
 
-        Regex assort = new Regex(@"/client/trading/api/getTraderAssort/([a-z0-9])+"); 
-        Regex prices = new Regex(@"/client/trading/api/getUserAssortPrice/([a-z0-9])+");
-        Regex getTrader = new Regex(@"/client/trading/api/getTrader/");
-        Regex traderImg = new Regex(@"/files/([a-z0-9/\.jpng])+");
-        Regex content = new Regex(@"/uploads/([a-z0-9/\.jpng_])+");
-        Regex pushNotifier = new Regex(@"/push/notifier/get/");
+        // regex for output
+        private Regex assort = new Regex(@"/client/trading/api/getTraderAssort/([a-z0-9])+");
+        private Regex prices = new Regex(@"/client/trading/api/getUserAssortPrice/([a-z0-9])+");
+        private Regex getTrader = new Regex(@"/client/trading/api/getTrader/");
+        private Regex traderImg = new Regex(@"/files/([a-z0-9/\.jpng])+");
+        private Regex content = new Regex(@"/uploads/([a-z0-9/\.jpng_])+");
+        private Regex pushNotifier = new Regex(@"/push/notifier/get/");
 
         public ServerResponseListener(string domain)
         {
@@ -91,34 +91,10 @@ namespace EFTLauncher.ServerLogic
             Logger.Log("INFO: Entering http listener thread loop");
             while (threadHandle)
             {
+                // handle request
                 HttpListenerContext context = httpListener.GetContext();
-                HttpListenerRequest request = context.Request;
-                HttpListenerResponse response = context.Response;
-
-                // receive request
-                string requestURl;
-                using (Stream receiveStream = request.InputStream)
-                {
-                    using (StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8))
-                    {
-                        requestURl = readStream.ReadToEnd();
-                    }
-                }
-                Logger.Log("INFO: Recieved request from " + request.RemoteEndPoint.Address + " for " + request.Url);
-
-                // get response to request
-                string responseData = GetResponseText(requestURl);
-
-                // TODO: REWRITE THIS
-                // initiaize response response
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseData);
-                response.ContentLength64 = buffer.Length;
-
-                // TODO: REWRITE THIS
-                // send response
-                Stream output = response.OutputStream;
-                output.Write(buffer, 0, buffer.Length);
-                output.Close();
+                string requestedData = GetRequest(context);
+                SendResponse(context, requestedData);
             }
 
             // terminate listener
@@ -126,10 +102,49 @@ namespace EFTLauncher.ServerLogic
             Logger.Log("INFO: Terminated http listener thread");
         }
 
-        private string GetResponseText(string requestURL)
+        private string GetRequest(HttpListenerContext context)
         {
-            string output = "";
+            // receive request
+            Logger.Log("INFO: Recieved request from " + context.Request.RemoteEndPoint.Address + " for " + context.Request.Url);
 
+            // get data
+            byte[] buffer = ZLib.ToByteArray(context.Request.InputStream);
+            Logger.Log("INFO: Request body: " + BitConverter.ToString(buffer).Replace("-", " "));
+
+            // decompress the data
+            string body = ZLib.Decompress(buffer);
+            Logger.Log("INFO: Url: " + context.Request.Url + ", Body: " + body);
+
+            return body;
+        }
+
+        private void SendResponse(HttpListenerContext context, string body)
+        {
+            // get response type
+            if (context.Request.HttpMethod == "POST")
+            {
+                Logger.Log("INFO: Request is POST");
+            }
+            else
+            {
+                Logger.Log("INFO: Request is GET");
+            }
+
+            // get response to send
+            byte[] buffer = ZLib.Compress(GetResponseBody(body));
+            Logger.Log("INFO: Response body: " + BitConverter.ToString(buffer).Replace("-", " "));
+
+            // send response
+            System.IO.Stream output = context.Response.OutputStream;
+            output.Write(buffer, 0, buffer.Length);
+            output.Close();
+        }
+
+        private string GetResponseBody(string body)
+        {
+            //string info = "{}"; // movement info
+
+            #region psuedo code
             /*if (url.match(assort))
             {
                 FinalOutput = ReadJson("assort/" + url.substring(36).replace(/[^a - zA - Z0 - 9_] / g, '') + ".json");
@@ -160,15 +175,16 @@ namespace EFTLauncher.ServerLogic
                 FinalOutput = '{"err":0, "errmsg":null, "data":[]}';
                 return;
             }*/
+            #endregion
 
-            switch (requestURL)
+            switch (body)
             {
                 case "/":
-                    output = "Escape From Tarkov server for version 0.11.7.3233 by Merijn Hendriks";
+                    finalOutput = "Escape From Tarkov server for version 0.11.7.3233 by Merijn Hendriks";
                     break;
 
                 case "/client/friend/list":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/friends.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/friends.json");
                     break;
 
                 case "/client/game/profile/items/moving":
@@ -184,100 +200,100 @@ namespace EFTLauncher.ServerLogic
                     break;
 
                 case "/client/mail/dialog/list":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/empty/nullarray.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/empty/nullarray.json");
                     break;
 
                 case "/client/friend/request/list/outbox":
                 case "/client/friend/request/list/inbox":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/empty/nullarray.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/empty/nullarray.json");
                     break;
 
                 case "/client/languages":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/languages.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/languages.json");
                     break;
 
                 case "/client/menu/locale/en":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/english/list.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/english/list.json");
                     break;
 
                 case "/client/menu/locale/ru":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/russian/list.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/russian/list.json");
                     break;
 
                 case "/client/game/version/validate":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/empty/nulldata.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/empty/nulldata.json");
                     break;
 
                 case "/client/game/login":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/profile/login.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/profile/login.json");
                     break;
 
                 case "/client/items":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/items.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/items.json");
                     break;
 
                 case "/client/globals":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/globals.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/globals.json");
                     break;
 
                 case "/client/game/profile/list":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/profile/list.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/profile/list.json");
                     break;
 
                 case "/client/game/profile/select":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/profile/select.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/profile/select.json");
                     break;
 
                 case "/client/profile/status":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/profile/status.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/profile/status.json");
                     break;
 
                 case "/client/game/keepalive":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/empty/nulldata.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/empty/nulldata.json");
                     break;
 
                 case "/client/weather":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/weathers.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/weathers.json");
                     break;
 
                 case "/client/locale/en":
                 case "/client/locale/En":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/russian/locale.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/russian/locale.json");
                     break;
 
                 case "/client/locale/ru":
                 case "/client/locale/Ru":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/russian/locale.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/localization/russian/locale.json");
                     break;
 
                 case "/client/locations":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/locations.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/locations.json");
                     break;
 
                 case "/client/handbook/templates":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/templates.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/templates.json");
                     break;
 
                 case "/client/quest/list":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/quests.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/quests.json");
                     break;
 
                 case "/client/game/bot/generate":
                     // TODO: randomized bots
                     //output = JSON.stringify( { "err": 0,"errmsg": null,"data": generateBots(JSON.parse(body)) } );
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/bots.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/bots.json");
                     break;
 
                 case "/client/trading/api/getTradersList":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/traders/tradelist.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/traders/tradelist.json");
                     break;
 
                 case "/client/server/list":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/server/server.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/server/server.json");
                     break;
 
                 case "/client/ragfair/search":
-                    output = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/ragfair/search.json");
+                    finalOutput = JsonHelper.ReadJson(Environment.CurrentDirectory + @"/data/ragfair/search.json");
                     break;
 
                 case "/dump":
@@ -293,11 +309,11 @@ namespace EFTLauncher.ServerLogic
                     break;
 
                 default:
-                    output = "UNHANDLED REQUEST " + requestURL;
+                    finalOutput = "UNHANDLED REQUEST " + body;
                     break;
             }
 
-            return output;
+            return finalOutput;
         }
     }
 }
