@@ -109,11 +109,10 @@ namespace EFTLauncher.ServerLogic
 
             // get data
             byte[] buffer = ZLib.ToByteArray(context.Request.InputStream);
-            Logger.Log("INFO: Request body: " + BitConverter.ToString(buffer).Replace("-", " "));
 
             // decompress the data
             string body = ZLib.Decompress(buffer);
-            Logger.Log("INFO: Url: " + context.Request.Url + ", Body: " + body);
+            Logger.Log("INFO: Decompressed body: " + body);
 
             return body;
         }
@@ -132,7 +131,6 @@ namespace EFTLauncher.ServerLogic
 
             // get response to send
             byte[] buffer = ZLib.Compress(GetResponseBody(body));
-            Logger.Log("INFO: Response body: " + BitConverter.ToString(buffer).Replace("-", " "));
 
             // send response
             System.IO.Stream output = context.Response.OutputStream;
