@@ -8,7 +8,6 @@ namespace EFTLauncher.Utility
     {
         public string email;
         public string password;
-        public string serverDomain;
         public string gameLocation;
         public string gameDomain;
     }

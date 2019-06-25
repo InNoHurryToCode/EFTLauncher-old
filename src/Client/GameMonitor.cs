@@ -17,12 +17,14 @@ namespace EFTLauncher.ClientLogic
         public GameMonitor(string gameDirectory)
         {
             this.gameDirectory = gameDirectory;
+            this.SClientDirectory = gameDirectory + @"/EscapeFromTarkov_Data/Managed/";
         }
 
         public void LaunchGame(string address)
         {
             if (gameAlive != null)
             {
+                Logger.Log("INFO: Cannot start client, it is already running");
                 return;
             }
 
@@ -33,17 +35,12 @@ namespace EFTLauncher.ClientLogic
             SetGameDomain(address);
 
             // rename SClient.dll if it exists
-            SClientDirectory = gameDirectory + @"/EscapeFromTarkov_Data/Managed/";
-            if (File.Exists(SClientDirectory + "SClient.dll"))
-            {
-                Logger.Log("INFO: Client contains SClient.dll, renaming dll");
-                File.Move(SClientDirectory + "SClient.dll", SClientDirectory + "SClient.dll.disabled");
-            }
+            //SetSClient();
 
             // launch game
             ProcessStartInfo game = new ProcessStartInfo();
             game.FileName = gameDirectory + @"/EscapeFromTarkov.exe";
-            if (File.Exists(gameDirectory + @"/EscapeFromTarkov.exe"))
+            if (File.Exists(game.FileName))
             {
                 Process gameProcess = Process.Start(game);
                 Logger.Log("INFO: Game started");
@@ -63,22 +60,13 @@ namespace EFTLauncher.ClientLogic
             if (gameProcess.Length == 0)
             {
                 Logger.Log("INFO: Game terminated");
+
                 gameAlive.Enabled = false;
-                ResetGameFiles();
-            }
-        }
 
-        public void ResetGameFiles()
-        {
-            // rename SClient.dll if it exists
-            if (File.Exists(SClientDirectory + "SClient.dll.disabled"))
-            {
-                Logger.Log("INFO: Client contains SClient.dll.disabled, renaming dll");
-                File.Move(SClientDirectory + "SClient.dll.disabled", SClientDirectory + "SClient.dll");
+                // reset game files
+                //SetSClient();
+                SetGameDomain(originalDomain);
             }
-
-            // reset client address
-            SetGameDomain(originalDomain);
         }
 
         public void SetGameDomain(string domain)
@@ -89,10 +77,34 @@ namespace EFTLauncher.ClientLogic
             if (configData.BackendUrl != domain)
             {
                 Logger.Log("INFO: Client BackendUrl doesn't match domain " + domain + ", overwriting config");
+
                 originalDomain = configData.BackendUrl;
                 configData.BackendUrl = domain;
+
                 JsonHelper.SaveJson<ConfigData>(gameDirectory + @"/client.config.json", configData);
             }
+        }
+
+        public void SetSClient()
+        {
+            string SClientNormal = SClientDirectory + "SClient.dll";
+            string SClientDisabled = SClientDirectory + "SClient.dll.disabled";
+
+            if (File.Exists(SClientNormal))
+            {
+                Logger.Log("INFO: Client contains SClient.dll, renaming dll");
+                File.Move(SClientNormal, SClientDisabled);
+                return;
+            }
+
+            if (File.Exists(SClientDisabled))
+            {
+                Logger.Log("INFO: Client contains SClient.dll.disabled, renaming dll");
+                File.Move(SClientDisabled, SClientNormal);
+                return;
+            }
+
+            Logger.Log("INFO: Client doesn't contain SClient.dll");
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using EFTLauncher.Utility;
 
-namespace EFTLauncher.ServerLogic
+namespace EFTLauncher.ExtractorLogic
 {
     /// <summary>
     /// Emulated Escape From Tarkov server
     /// </summary>
-    public class Server
+    public class Extractor
     {
         ServerResponseListener serverResponseListener;
 

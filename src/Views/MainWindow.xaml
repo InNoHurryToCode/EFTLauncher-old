@@ -17,11 +17,9 @@
                     <Button x:Name="StartClient" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="StartClientButtonClicked"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Server">
+            <TabItem Header="Extractor">
                 <Grid Background="#FFE5E5E5">
-                    <Label Content="Domain" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
-                    <TextBox x:Name="serverDomain" HorizontalAlignment="Left" Height="23" Margin="10,35.6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="278.4" TextChanged="ServerDomainChanged"/>
-                    <Button x:Name="StartServer" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="StartServerButtonClicked"/>
+                    <Button x:Name="StartExtractor" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,142,0,0" Click="StartExtractorButtonClicked"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="53.6">

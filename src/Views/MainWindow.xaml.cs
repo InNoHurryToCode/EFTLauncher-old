@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Threading;
 using EFTLauncher.ClientLogic;
-using EFTLauncher.ServerLogic;
+using EFTLauncher.ExtractorLogic;
 using EFTLauncher.Utility;
 using Microsoft.Win32;
 
@@ -15,7 +15,7 @@ namespace EFTLauncher
     public partial class MainWindow : Window
     {
         Client client;
-        Server server;
+        Extractor extractor;
         DispatcherTimer logUpdateTimer;
         LauncherSettings launcherSettings;
 
@@ -28,7 +28,7 @@ namespace EFTLauncher
 
             // initialize client and server
             client = new Client();
-            server = new Server();
+            extractor = new Extractor();
 
             // detect game installation
             if (!String.IsNullOrEmpty(gameLocation.Text))
@@ -59,7 +59,6 @@ namespace EFTLauncher
             // apply settings
             email.Text = launcherSettings.email;
             password.Text = launcherSettings.password;
-            serverDomain.Text = launcherSettings.serverDomain;
             gameLocation.Text = launcherSettings.gameLocation;
             gameDomain.Text = launcherSettings.gameDomain;
         }
@@ -82,12 +81,6 @@ namespace EFTLauncher
             SaveSettings();
         }
 
-        private void ServerDomainChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            launcherSettings.serverDomain = serverDomain.Text;
-            SaveSettings();
-        }
-
         private void GameLocationChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             launcherSettings.gameLocation = gameLocation.Text;
@@ -105,9 +98,9 @@ namespace EFTLauncher
             client.Start(email.Text, password.Text, gameLocation.Text, gameDomain.Text);
         }
 
-        private void StartServerButtonClicked(object sender, RoutedEventArgs e)
+        private void StartExtractorButtonClicked(object sender, RoutedEventArgs e)
         {
-            server.Start(serverDomain.Text);
+            extractor.Start(gameDomain.Text);
         }
 
         private void DeleteLogsButtonClicked(object sender, RoutedEventArgs e)

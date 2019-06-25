@@ -65,11 +65,11 @@
     <Compile Include="Client\GameMonitor.cs" />
     <Compile Include="Client\Login.cs" />
     <Compile Include="Utility\ZLib.cs" />
-    <Compile Include="Server\ResponseListener.cs" />
+    <Compile Include="Extractor\ResponseListener.cs" />
     <Compile Include="Utility\JsonHelper.cs" />
     <Compile Include="Utility\LauncherSettings.cs" />
     <Compile Include="Utility\Logger.cs" />
-    <Compile Include="Server\Server.cs" />
+    <Compile Include="Extractor\Extractor.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
